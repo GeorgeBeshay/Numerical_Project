@@ -9,7 +9,7 @@ def LU_Doolittle_Decomposition(a, n, o, s):
             if (abs(a[i][j]) > s[i]):
                 s[i] = abs(a[i][j])
     for k in range(0, n-1):
-        flops += pivot(a, o, s, n, k, flops)
+        flops += partialPivot(a, o, s, n, k, flops)
         for i in range(k+1, n):
             factor = a[o[i]][k] / a[o[k]][k]
             flops += 1
@@ -30,7 +30,7 @@ def LU_Doolittle_Decomposition(a, n, o, s):
     return L, U
 
 
-def pivot(a, o, s, n, k, flops):
+def partialPivot(a, o, s, n, k, flops):
     p = k
     big = abs(a[o[k]][k] / s[o[k]])
     flops += 1

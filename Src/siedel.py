@@ -1,7 +1,14 @@
 # Seidel with flops
 from numpy import zeros
+import math
 
-def seidel(A , b , N = 50 , x = None , max_error = 0.001 , precision = 10):
+def signif(x, digits=6):
+    if x == 0 or not math.isfinite(x):
+        return x
+    digits -= math.ceil(math.log10(abs(x)))
+    return round(x, digits)
+
+def seidel(A , b , N = 50 , x = None , max_error = 0.0000001 , precision = 10):
     print("N = " + str(N) + " , max_error = " + str(max_error))
     # Create an initial guess if not given                                                                                                          
     flops = 0
@@ -33,9 +40,9 @@ def seidel(A , b , N = 50 , x = None , max_error = 0.001 , precision = 10):
                     count += 1
                     equation = equation + ' - A['+str(i) +']['+ str(j)+ '] * x[' + str(j)+ ']'
                     calc = calc + ' - '+str(A[i][j]) + ' * ' +str(x[j])
-                    sum = sum + A[i][j] * x[j]
+                    sum = signif(sum + A[i][j] * x[j] , precision)
 
-            x_new[i] = round((b[i] - sum) / A[i][i], precision)
+            x_new[i] = signif((b[i] - sum) / A[i][i], precision)
             flops+=2
             if i == 0:
                 relative_error = (abs((x_new[i]-current_x)/x_new[i])) * 100
@@ -59,10 +66,11 @@ def seidel(A , b , N = 50 , x = None , max_error = 0.001 , precision = 10):
 A = [[12,3,-5],[1,5.0,3.0],[3.0,7.0,13.0]]
 b =[1.0,28.0,76.0]
 guess = [1.0,0.0,1.0]
+N = None
 
 # sol = seidel(A,b,N=25,x=guess)
 
-sol,flops = seidel(A,b,x=guess,max_error = 0.001,precision=5)
+sol,flops = seidel(A,b,N=20,x=guess,precision=5)
 
 print("============================= FINISHED =============================")
 print("Final X: ")

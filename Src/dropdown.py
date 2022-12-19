@@ -22,13 +22,6 @@ class Window:
         sublist1.add_command(label="Cholesky Form" , command= lambda: selected.set("LU Cholesky Form"))  
         menu.add_cascade(label = "LU Decomposition" ,menu= sublist1)
 
-        # def my_show():
-        #    method = selected.get()
-        #    if method == "Jacobi-Iteration":
-        #     print("in jacobi") 
-
-        # b1 = tk.Button(master,text="Confirm",command=my_show)
-        # b1.grid(row=0,column=1)
 
         def numberE(entr):
             isInt=True
@@ -43,18 +36,6 @@ class Window:
                 # , bg="red"
                 isInt = False
             return isInt ,num
-
-
-        # def takeCof (num, namR):
-        #     mat = [[0 for i in range(num+1)]for j in range(num)]
-        #     for i in range(num):
-        #         for j in range(num + 1):
-        #             isint ,num=numberE(namR[i][j])
-        #             if isint==False :
-        #                 CreateEntry()
-        #                 return
-        #             else:
-        #                 mat[i][j]=num
 
         def selectMethod():
             method = selected.get()

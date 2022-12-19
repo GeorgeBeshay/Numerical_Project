@@ -6,6 +6,7 @@ class Window:
 
     def __init__(self ,master):
         selected = tk.StringVar()
+        
         methods = [
             "Gauss Elimination",
             "Gauss-Jodan",
@@ -44,18 +45,18 @@ class Window:
             return isInt ,num
 
 
-        def takeCof (num, namR):
-            mat = [[0 for i in range(num+1)]for j in range(num)]
-            for i in range(num):
-                for j in range(num + 1):
-                    isint ,num=numberE(namR[i][j])
-                    if isint==False :
-                        CreateEntry()
-                        return
-                    else:
-                        mat[i][j]=num
+        # def takeCof (num, namR):
+        #     mat = [[0 for i in range(num+1)]for j in range(num)]
+        #     for i in range(num):
+        #         for j in range(num + 1):
+        #             isint ,num=numberE(namR[i][j])
+        #             if isint==False :
+        #                 CreateEntry()
+        #                 return
+        #             else:
+        #                 mat[i][j]=num
 
-        def DoCalc():
+        def selectMethod():
             method = selected.get()
             if method == "Gauss Elimination":
                 print("in Gauss-Elimimation")
@@ -71,10 +72,26 @@ class Window:
                 print("in Seidel")
             elif method == "Jacobi-Iteration":
                 print("in jacobi")
+        
+        def getMatrices(namR,num):
+            matA = [[0 for i in range(num)]for j in range(num)]
+            for i in range(num):
+                for j in range(num):
+                    matA[i][j] = float(namR[i][j].get())
+            matB = [0 for i in range(num)]
+            for i in range (num):
+                matB[i] = float(namR[i][num].get())
+            
+            print("A = ")
+            print(matA)
+            print("B = ")
+            print(matB)
+            # Call george's function
 
         def CreateEntry():
-            create, num = numberE(numberEquations)
 
+            create, num = numberE(numberEquations)
+            selectMethod()
             if create==True:
                 frame = tk.LabelFrame(master, text="Fill the system of linear Equations", padx=5, pady=5)
                 frame.grid(row=3, column=0,padx=10, pady=10)
@@ -89,7 +106,7 @@ class Window:
                     for j in range(num+1):
                         namR[i][j].grid(row=i+1, column=j)
 
-                b2 = tk.Button(frame, text="enter",command= DoCalc)
+                b2 = tk.Button(frame, text="Solve",command=lambda: getMatrices(namR, num))
                 #, command = takeCof(num, namR) )
                 b2.grid(row=num+1, column=num)
 
@@ -99,7 +116,7 @@ class Window:
         nE.grid(row=2, column=0)
         numberEquations = tk.Entry(numberEFrame, width=5)
         numberEquations.grid(row=2, column=1)
-        b = tk.Button(numberEFrame, text="enter", command=CreateEntry)
+        b = tk.Button(numberEFrame, text="Enter", command=CreateEntry)
         b.grid(row=2, column=2)
 
 

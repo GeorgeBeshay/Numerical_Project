@@ -11,6 +11,12 @@ def signif(x, digits=6):
 def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
     jacSteps = ""
     jacSteps += "N = " + str(N) + " , max_error = " + str(max_error) + "\n"
+    if N==0 :
+        N = 50
+    if precision==0:
+        precision = 10
+    if max_error==0:
+        max_error = 0.0000001
     # Create an initial guess if not given 
     if x is None:
         x = [0] * len(A)

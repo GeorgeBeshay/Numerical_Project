@@ -10,6 +10,7 @@ def isIntger(entr):
         if num<=0:
             entr.config(highlightthickness=2, highlightbackground="red",
                         bg="red", highlightcolor="red")
+            num = 0
             isInt = False
 
     except ValueError:

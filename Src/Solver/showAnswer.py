@@ -58,21 +58,33 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
 
     elif METHOD_NAME == 'Gauss-Jordan':
         SC_FLAG= bool(parameters[1].get())
-        Ans = GM.ans_gauss_jordan(A, B, SC_FLAG, PRECISION)
+        try:
+            Ans = GM.ans_gauss_jordan(A, B, SC_FLAG, PRECISION)
+        except:
+            Ans = 'Inconsistent System'
 
     elif METHOD_NAME == 'Gauss Elimination':
         SC_FLAG = bool(parameters[1].get())
-        Ans = GM.ans_gauss(A, B, SC_FLAG, PRECISION)
+        try:
+            Ans = GM.ans_gauss(A, B, SC_FLAG, PRECISION)
+        except:
+            Ans = 'Inconsistent System'
 
     elif METHOD_NAME == 'LU Crout Form':
-        Ans = LU_CR.ans_crout(A, B, PRECISION)
+        try:
+            Ans = LU_CR.ans_crout(A, B, PRECISION)
+        except:
+            Ans = f"Can't be solved using {METHOD_NAME}"
 
     elif METHOD_NAME == 'LU Doolittle Form':
         SC_FLAG = bool(parameters[1].get())
         Ans = LU_D.LU_Doolittle(A, SC_FLAG, PRECISION, B)
 
     elif METHOD_NAME == 'LU Cholesky Form':
-        Ans = LU_CH.ans_cholesky(A, B, PRECISION)
+        try:
+            Ans = LU_CH.ans_cholesky(A, B, PRECISION)
+        except:
+            Ans = f"Can't be solved using {METHOD_NAME}"
 
     else:
         Ans = 'ERROR: INVALID SOLVING METHOD'

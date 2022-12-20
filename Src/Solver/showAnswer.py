@@ -1,9 +1,6 @@
 # import Src.Solver.Header as SH
 # from Src.Solver.Header import *
 
-import sys
-sys.path.append('Src/Solver/')
-
 import Src.Solver.jacobi as JAC
 import Src.Solver.seidel as SEIDEL
 import Src.Solver.GaussMethods as GM
@@ -111,4 +108,4 @@ def showAnswer(A,  B, METHOD_NAME, parameters):
 
 
 # The following code is used for testing the module, should be removed after finishing.
-# showAnswer(None, None, 'Method name', []).mainloop()
+# showAnswer(None, None, 'Method name', [1]).mainloop()

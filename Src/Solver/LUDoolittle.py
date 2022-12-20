@@ -31,8 +31,6 @@ def LU_Doolittle(matrix, scFlag, precision, b):
 
 
 def LU_Doolittle_Decomposition(matrix, n, o, s, scFlag, precision, steps):
-    L = [[0 for x in range(n)]for y in range(n)]
-    U = [[0 for x in range(n)]for y in range(n)]
     for i in range(0, n):
         o[i] = i
         s[i] = signif(abs(matrix[i][0]), precision)

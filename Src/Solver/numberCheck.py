@@ -12,8 +12,8 @@ def isIntger(entr):
                         bg="red", highlightcolor="red")
             num = 0
             isInt = False
-
     except ValueError:
+        print("in except")
         if not entr.get():
             num = 0
             isInt = True

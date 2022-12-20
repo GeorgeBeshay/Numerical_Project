@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from numberCheck import *
+import Src.Solver.showAnswer as show
 # from jacobi import *
 # Window
 
@@ -66,8 +67,9 @@ class Window:
             print("B = ")
             print(matB)
             print("scalable = ")
-            print(bool(parameters[1].get()))
-
+            print(parameters[0].get())
+            method = selected.get()
+            show.showAnswer(matA, matB, method, parameters)
             # Call george's function give it A, B, parameters
 
         def CreateEntry():
@@ -98,8 +100,9 @@ class Window:
                 precision = tk.Label(frame1)
                 precision.configure(text="Precision")
                 precision.grid(row=1, column=0, padx=5, pady=5)
-                parameters.append(tk.Entry(frame1, width=5).grid(
-                    row=1, column=1, padx=5, pady=5))
+                prec=tk.Entry(frame1, width=5)
+                prec.grid(row=1, column=1, padx=5, pady=5)
+                parameters.append(prec)
 
                 method = selected.get()
                 if method == "Gauss Elimination" or method == "Gauss-Jodan" or method == "LU Doolittle Form":
@@ -125,13 +128,15 @@ class Window:
                     iterations = tk.Label(frame1)
                     iterations.configure(text="Number of Iterations")
                     iterations.grid(row=5, column=0, padx=5, pady=5)
-                    parameters.append(tk.Entry(frame1, width=5).grid(
-                        row=5, column=1, padx=5, pady=5))
+                    N = tk.Entry(frame1, width=5)
+                    N.grid(row=5, column=1, padx=5, pady=5)
+                    parameters.append(N)
                     relativeError = tk.Label(frame1)
                     relativeError.configure(text="Absolute relative Error")
                     relativeError.grid(row=6, column=0, padx=5, pady=5)
-                    parameters.append(tk.Entry(frame1, width=5).grid(
-                        row=6, column=1, padx=5, pady=5))
+                    tol = tk.Entry(frame1, width=5)
+                    tol.grid(row=6, column=1, padx=5, pady=5)
+                    parameters.append(tol)
 
 
                 b2 = tk.Button(frame, text="Solve",

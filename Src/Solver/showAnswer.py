@@ -27,6 +27,7 @@ from numberCheck import *
 def getSolutionText(A,  B, METHOD_NAME, parameters):
     Ans = ""
     PRECISION=0
+    print(parameters[0])
     isInt, num = isIntger(parameters[0])
     if isInt:
         PRECISION = num
@@ -55,21 +56,21 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
 
     elif METHOD_NAME == 'Gauss-Jordan':
         SC_FLAG= bool(parameters[1].get())
-        Ans = GM.ans_gauss_jordan(A, SC_FLAG, PRECISION)
+        Ans = GM.ans_gauss_jordan(A, SC_FLAG, PRECISION) #B
 
     elif METHOD_NAME == 'Gauss Elimination':
         SC_FLAG = bool(parameters[1].get())
         Ans = GM.ans_gauss(A, SC_FLAG, PRECISION)
 
     elif METHOD_NAME == 'LU Crout Form':
-        Ans = LU_CR.ans_crout(A, PRECISION)
+        Ans = LU_CR.ans_crout(A,B, PRECISION)
 
     elif METHOD_NAME == 'LU Doolittle Form':#scaling
         SC_FLAG = bool(parameters[1].get())
-        Ans = LU_D.LU_Doolittle(A, B, SC_FLAG, PRECISION)
+        Ans = LU_D.LU_Doolittle(A, SC_FLAG, PRECISION,B)
 
     elif METHOD_NAME == 'LU Cholesky Form':
-        Ans = LU_CH.ans_cholesky(A, PRECISION)
+        Ans = LU_CH.ans_cholesky(A,B, PRECISION)
 
     else:
         Ans = 'ERROR: INVALID SOLVING METHOD'

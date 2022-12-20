@@ -4,6 +4,7 @@ from tkinter import ttk
 # Window
 
 
+
 class Window:
 
     def __init__(self, master):
@@ -43,6 +44,26 @@ class Window:
                 isInt = False
             return isInt, num
 
+        def isFloat(entr):
+                isfloat = True
+                num = -1
+                try:
+                    float(entr.get())
+                    entr.config(highlightthickness=0, bg="white")
+                    isfloat = True
+                    num = float(entr.get())
+                except ValueError:
+                    if not entr.get():
+                        num = 0
+                        isfloat = True
+                    else:
+                        entr.config(highlightthickness=2, highlightbackground="red",
+                                    bg="red", highlightcolor="red")
+                        isfloat = False
+
+                return isfloat, num
+
+
         def selectMethod():
             method = selected.get()
             if method == "Gauss Elimination":
@@ -64,10 +85,14 @@ class Window:
             matA = [[0 for i in range(num)]for j in range(num)]
             for i in range(num):
                 for j in range(num):
-                    matA[i][j] = float(namR[i][j].get())
+                    isfloat,coef= isFloat(namR[i][j])
+                    if isfloat:
+                        matA[i][j] = coef
             matB = [0 for i in range(num)]
             for i in range(num):
-                matB[i] = float(namR[i][num].get())
+                isfloat, coef = isFloat(namR[i][num])
+                if isfloat:
+                    matB[i] = coef
 
             print("A = ")
             print(matA)
@@ -163,5 +188,6 @@ class Window:
 root = tk.Tk()
 window = Window(root)
 root.title("Drop Down")
-root.state("zoomed")
+root.geometry("500x500")
+#root.state("zoomed")
 root.mainloop()

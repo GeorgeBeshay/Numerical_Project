@@ -20,17 +20,17 @@ def max_piv_row(temp, piv_index, scaling = False, sigdig = 10):
     if scaling: # change the target part so each row is normalized by its largest coefficient
         for i in range(piv_index, len(temp)):
             # get a temporary list of the magitude of all coefficients excluding the constant
-            temprow = [abs(temp[x]) for x in range(len(temp)-1)]
-            max_coeff = max(temprow) 
+            temprow = [abs(temp[i][x]) for x in range(len(temp[i])-1)]
+            max_coeff = max(temprow)
             # divide each element by largest element
             for j in range(piv_index, len(temp)): temp[i][j] = roundsig(temp[i][j]/max_coeff , sigdig) 
 
     maxrow = piv_index
-    max = abs(temp[piv_index][piv_index])
+    m = abs(temp[piv_index][piv_index])
     
     for i in range( piv_index+1, len(temp) ):
-        if abs(temp[i][piv_index]) > max: #piv_index represents both the row and column of current pivot
-            max = abs(temp[i][piv_index])
+        if abs(temp[i][piv_index]) > m: #piv_index represents both the row and column of current pivot
+            m = abs(temp[i][piv_index])
             maxrow = i
 
     return maxrow

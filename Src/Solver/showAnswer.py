@@ -9,6 +9,8 @@ import Src.Solver.LUDoolittle as LU_D
 import Src.Solver.Cholesky as LU_CH
 
 
+import time
+
 import tkinter as tk
 from numberCheck import *
 # Module is responsible for displaying the answer.
@@ -80,7 +82,11 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
 
 def showAnswer(A,  B, METHOD_NAME, parameters):
     # ------------------------- Separator -------------------------
+    startTime = time.time_ns()
     Ans = getSolutionText(A,  B, METHOD_NAME, parameters)
+    endTime = time.time_ns()
+    runtime = (endTime - startTime) / (10**6)
+    Ans += f'\nruntime = {runtime} ms'
     # ------------------------- Separator -------------------------
     answerWindow = tk.Tk()
     answerWindow.title('Application Answer Window')

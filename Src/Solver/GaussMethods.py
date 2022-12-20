@@ -239,6 +239,8 @@ def forward_substitution(matrix, steps, constants = None, sigdig = 10):
 
 
 def ans_gauss(A, b, scaling = False, significant_digits = 10):
+    if significant_digits==0:
+        significant_digits = 10
     aug = copy.deepcopy(A)
     for i in range(len(aug)): aug[i].append(b[i])
     echelon, steps1 = gauss_elim(aug, scaling, significant_digits)
@@ -247,6 +249,8 @@ def ans_gauss(A, b, scaling = False, significant_digits = 10):
 
 
 def ans_gauss_jordan(A, b, scaling = False, significant_digits = 10):
+    if significant_digits==0:
+        significant_digits = 10
     aug = copy.deepcopy(A)
     for i in range(len(aug)): aug[i].append(b[i])
     rr_echelon, steps1 = gauss_jordan_elim(aug, scaling, significant_digits)

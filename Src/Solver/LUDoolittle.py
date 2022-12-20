@@ -16,6 +16,10 @@ def signif(x, digits=6):
 
 
 def LU_Doolittle(matrix, scFlag, precision, b):
+
+    if precision==0:
+        precision=10
+
     n = len(matrix)
     order = [0 for x in range(n)]
     scaling = [0 for x in range(n)]

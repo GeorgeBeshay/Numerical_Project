@@ -61,7 +61,8 @@ def crout(mat, sigdig = 10):
 
 
 def ans_crout(A, b, significant_digits = 10):
-
+    if significant_digits==0:
+        significant_digits = 10
     steps1, L, U = crout(A, significant_digits)
     steps1.append(Step(L , f'L is augmented with b to solve for y.'))
     y, steps2 = GM.forward_substitution(L , steps1, b, significant_digits)

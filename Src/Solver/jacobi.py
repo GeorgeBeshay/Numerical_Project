@@ -45,10 +45,11 @@ def jacobi(A , b , N, x , max_error , precision ):
                     sum = signif(sum + A[i][j] * x[j], precision)
 
             x_new[i] = signif((b[i] - sum) / A[i][i] , precision)
-            if i == 0:
-                relative_error = (abs((x_new[i]-x[i])/x_new[i])) * 100
-            elif (abs(x_new[i]-x[i])/x_new[i]) * 100 > relative_error:
-                relative_error = (abs((x_new[i]-x[i])/x_new[i])) * 100
+            if x_new[i]!=0:
+                if i == 0:
+                    relative_error = (abs((x_new[i]-x[i])/x_new[i])) * 100
+                elif (abs(x_new[i]-x[i])/x_new[i]) * 100 > relative_error:
+                    relative_error = (abs((x_new[i]-x[i])/x_new[i])) * 100
             jacSteps += 'x_new[' + str(i) + '] = (b['+ str(i) + ']'+ equation + ') /  A['+str(i) +']['+ str(i)+ '] = ('+ str(b[i]) + calc + ') / ' + str(A[i][i])+ ' = ' + str(x_new[i]) +"\n"
         jacSteps += "++++++++++++++++++++++++++++++++++++++++\n"
         jacSteps +="MAX RELATIVE ERROR = " + str(relative_error) + "\n"

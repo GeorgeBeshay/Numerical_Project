@@ -56,6 +56,8 @@ def cholesky(mat, sigdig = 10):
 
 
 def ans_cholesky(A, b, significant_digits = 10):
+    if significant_digits==0:
+        significant_digits = 10
 
     steps1, L, U = cholesky(A, significant_digits)
     steps1.append(Step(L , f'L is augmented with b to solve for y.'))

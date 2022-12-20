@@ -12,6 +12,12 @@ def signif(x, digits=6):
 def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
     seidelSteps = ""
     seidelSteps += "N = " + str(N) + " , max_error = " + str(max_error)+"\n"  # do you want this
+    if N==0:
+        N = 50
+    if precision==0:
+        precision = 10
+    if max_error==0:
+        max_error = 0.0000001
     # Create an initial guess if not given
     if x is None:
         x = zeros(len(A[0]))

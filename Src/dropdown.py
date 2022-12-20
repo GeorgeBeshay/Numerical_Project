@@ -60,7 +60,7 @@ class Window:
             elif method == "Jacobi-Iteration":
                 print("in jacobi")
 
-        def getMatrices(namR, num):
+        def getMatrices(namR, num, parameters):
             matA = [[0 for i in range(num)]for j in range(num)]
             for i in range(num):
                 for j in range(num):
@@ -73,7 +73,8 @@ class Window:
             print(matA)
             print("B = ")
             print(matB)
-            # Call george's function
+
+            # Call george's function give it A, B, parameters
 
         def CreateEntry():
 
@@ -95,10 +96,6 @@ class Window:
                     for j in range(num+1):
                         namR[i][j].grid(row=i+1, column=j)
 
-                b2 = tk.Button(frame, text="Solve",
-                               command=lambda: getMatrices(namR, num))
-                # , command = takeCof(num, namR) )
-                b2.grid(row=num+1, column=num)
                 # More paramters inputs
                 frame1 = tk.LabelFrame(
                     master, text="More paramters inputs", padx=5, pady=5)
@@ -140,6 +137,15 @@ class Window:
                     parameters.append(tk.Entry(frame1, width=5).grid(
                         row=6, column=1, padx=5, pady=5))
 
+
+                b2 = tk.Button(frame, text="Solve",
+                               command=lambda: getMatrices(namR, num, parameters))
+                # , command = takeCof(num, namR) )
+                b2.grid(row=num + 1, column=num)
+
+
+
+
         numberEFrame = tk.LabelFrame(
             master, text="", padx=5, pady=5, borderwidth=0)
         numberEFrame.grid(row=2, column=0)
@@ -150,10 +156,12 @@ class Window:
         numberEquations.grid(row=2, column=1)
         b = tk.Button(numberEFrame, text="Enter", command=CreateEntry)
         b.grid(row=2, column=2)
+        # h = tk.Scrollbar(master, orient='vertical')
+        # h.grid(row=4, column=0, columnspan=20, sticky='ns')
 
 
 root = tk.Tk()
 window = Window(root)
 root.title("Drop Down")
-root.geometry("500x500")
+root.state("zoomed")
 root.mainloop()

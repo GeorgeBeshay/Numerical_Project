@@ -1,4 +1,7 @@
-import copy, math
+import copy
+import math
+import GaussMethods as GM
+
 
 # --------------------- Separator ---------------------
 class Step:
@@ -6,11 +9,13 @@ class Step:
         self.matrix = copy.deepcopy(matrix)
         self.description = description
 
+
 def roundsig(x, digits = 10):
     if x == 0 or not math.isfinite(x):
         return x
     digits -= math.ceil(math.log10(abs(x)))
     return round(x, digits)
+
 
 def view_matrix(mat):
     for i in mat:
@@ -19,9 +24,9 @@ def view_matrix(mat):
         print("\n")
     print('\n')
 
-# --------------------- Separator ---------------------
-def crout(mat , sigdig = 10):
 
+# --------------------- Separator ---------------------
+def crout(mat, sigdig = 10):
     n_eq = len(mat)
     # initializing L = 0 matrix and U = identity
     L = [[0]*n_eq for i in range(n_eq)]
@@ -55,17 +60,27 @@ def crout(mat , sigdig = 10):
     return steps, L, U
 
 
-A = [
-    [5,4,1],
-    [10,9,4],
-    [10,13,15]
-]
+def ans_crout(A, b, significant_digits = 10):
 
-steps , L , U = crout(A, sigdig = 10)
+    steps1, L, U = crout(A, significant_digits)
+    steps1.append(Step(L , f'L is augmented with b to solve for y.'))
+    y, steps2 = GM.forward_substitution(L , steps1, b, significant_digits)
+    steps2.append(Step(U , f'U is augmented with y to get the final solution.'))
+    sol, steps3 = GM.backward_substitution(U, steps2, y, significant_digits)
 
-view_matrix(L)
-view_matrix(U)
+    return GM.steps_to_string(steps3, significant_digits)
 
-for step in steps:
-    print(step.description + "\n")
-    view_matrix(step.matrix)
+# A = [
+#     [5, 4, 1],
+#     [10, 9, 4],
+#     [10, 13, 15]
+# ]
+#
+# steps, L, U = crout(A, sigdig = 10)
+#
+# view_matrix(L)
+# view_matrix(U)
+#
+# for step in steps:
+#     print(step.description + "\n")
+#     view_matrix(step.matrix)

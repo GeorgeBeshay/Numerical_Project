@@ -1,5 +1,6 @@
 import copy, math
 from math import sqrt
+import GaussMethods as GM
 
 class Step:
     def __init__(self, matrix, description):
@@ -51,19 +52,30 @@ def cholesky(mat, sigdig = 10):
                 L[i][j] = roundsig((mat[i][j]-sum) / L[j][j] , sigdig)
                 U[j][i] = L[i][j]
                 steps.append(Step(L , f'L[{i+1}][{j+1}] = (A[{i+1}][{j+1}] - {sum}) / L[{j+1}][{j+1}]'))
-
     return steps , L , U
 
-A = [
-    [6,15,55],
-    [15,55,225],
-    [55,225,979]
-]
 
-steps , L , U = cholesky(A)
+def ans_cholesky(A, b, significant_digits = 10):
 
-view_matrix(L)
-view_matrix(U)
-for step in steps:
-    print(step.description + "\n")
-    view_matrix(step.matrix)
+    steps1, L, U = cholesky(A, significant_digits)
+    steps1.append(Step(L , f'L is augmented with b to solve for y.'))
+    y, steps2 = GM.forward_substitution(L , steps1, b, significant_digits)
+    steps2.append(Step(U , f'U is augmented with y to get the final solution.'))
+    sol, steps3 = GM.backward_substitution(U, steps2, y, significant_digits)
+
+    return GM.steps_to_string(steps3, significant_digits)
+
+
+# A = [
+#     [6,15,55],
+#     [15,55,225],
+#     [55,225,979]
+# ]
+
+# steps , L , U = cholesky(A)
+
+# view_matrix(L)
+# view_matrix(U)
+# for step in steps:
+#     print(step.description + "\n")
+#     view_matrix(step.matrix)

@@ -1,4 +1,17 @@
-import Src.Solver.Header as SH
+# import Src.Solver.Header as SH
+# from Src.Solver.Header import *
+
+import sys
+sys.path.append('Src/Solver/')
+
+import Src.Solver.jacobi as JAC
+import Src.Solver.seidel as SEIDEL
+import Src.Solver.GaussMethods as GM
+import Src.Solver.Crout as LU_CR
+import Src.Solver.LUDoolittle as LU_D
+import Src.Solver.Cholesky as LU_CH
+
+
 import tkinter as tk
 from numberCheck import *
 # Module is responsible for displaying the answer.
@@ -12,7 +25,6 @@ from numberCheck import *
 # > Initial Guess
 # > bool pivoting
 # > bool scaling
-
 
 # ------------------------- Separator -------------------------
 def getSolutionText(A,  B, METHOD_NAME, parameters):
@@ -40,27 +52,27 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
             E_TOL = num
 
         if METHOD_NAME == 'Jacobi-Iteration':
-            Ans = SH.JAC(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+            Ans = JAC.jacobi(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
         else:
-            Ans = SH.SEIDEL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+            Ans = SEIDEL.seidel(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
 
     elif METHOD_NAME == 'Gauss-Jordan':
         SC_FLAG= bool(parameters[1].get())
-        Ans = SH.GJE(A, SC_FLAG, PRECISION)
+        Ans = GM.ans_gauss_jordan(A, SC_FLAG, PRECISION)
 
     elif METHOD_NAME == 'Gauss Elimination':
         SC_FLAG = bool(parameters[1].get())
-        Ans = SH.GE(A, SC_FLAG, PRECISION)
+        Ans = GM.ans_gauss(A, SC_FLAG, PRECISION)
 
     elif METHOD_NAME == 'LU Crout Form':
-        Ans = SH.LU_CR(A, PRECISION)
+        Ans = LU_CR.ans_crout(A, PRECISION)
 
     elif METHOD_NAME == 'LU Doolittle Form':#scaling
         SC_FLAG = bool(parameters[1].get())
-        Ans = SH.LU_D(A, B, SC_FLAG, PRECISION)
+        Ans = LU_D.LU_Doolittle(A, B, SC_FLAG, PRECISION)
 
     elif METHOD_NAME == 'LU Cholesky Form':
-        Ans = SH.LU_CH(A, PRECISION)
+        Ans = LU_CH.ans_cholesky(A, PRECISION)
 
     else:
         Ans = 'ERROR: INVALID SOLVING METHOD'
@@ -99,4 +111,4 @@ def showAnswer(A,  B, METHOD_NAME, parameters):
 
 
 # The following code is used for testing the module, should be removed after finishing.
-showAnswer(None, None, 'Method name', None, None, None, None, None, None).mainloop()
+# showAnswer(None, None, 'Method name', []).mainloop()

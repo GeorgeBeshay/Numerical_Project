@@ -121,8 +121,8 @@ def substitute(martix, o, b, percision):
     return step
 
 
-mat = [[2, 1, 1, 1, 1], [1, 2, 1, 1, 1], [
-    1, 1, 2, 1, 1], [1, 1, 1, 2, 1], [1, 1, 1, 1, 2]]
-b = [4, 5, 6, 7, 8]
+# mat = [[2, 1, 1, 1, 1], [1, 2, 1, 1, 1], [
+#     1, 1, 2, 1, 1], [1, 1, 1, 2, 1], [1, 1, 1, 1, 2]]
+# b = [4, 5, 6, 7, 8]
 
-LU_Doolittle(mat, False, 4, b)
+# LU_Doolittle(mat, False, 4, b)

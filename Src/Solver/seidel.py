@@ -57,14 +57,14 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
 
 #------------test--------------
 
-A = [[12,3,-5],[1,5.0,3.0],[3.0,7.0,13.0]]
-b = [1.0,28.0,76.0]
-guess = [1.0,0.0,1.0]
-N = None
+# A = [[12,3,-5],[1,5.0,3.0],[3.0,7.0,13.0]]
+# b = [1.0,28.0,76.0]
+# guess = [1.0,0.0,1.0]
+# N = None
 
 # sol = seidel(A,b,N=25,x=guess)
 
-seidelSteps = seidel(A, b, N=20, x=guess, precision=5)
-print(seidelSteps)
+# seidelSteps = seidel(A, b, N=20, x=guess, precision=5)
+# print(seidelSteps)
 
 

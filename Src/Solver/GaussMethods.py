@@ -79,13 +79,13 @@ def gauss_elim(matrix, scaling = False, sigdig = 10):
             steps.append(Step(mat ,f'R{j+1} <- R{j+1}-({multiplier})R{i+1}')) # log step
     
     return mat, steps
-
+    # return ans_gauss(mat, scaling, sigdig)
 
 
 def gauss_jordan_elim(matrix, scaling = False, sigdig = 10):
 
-    n_eq = len(mat)
     mat , steps = gauss_elim(matrix, scaling, sigdig)
+    n_eq = len(mat)
 
     # reverse pivot loop
     for i in range(n_eq-1, -1, -1):
@@ -113,7 +113,7 @@ def gauss_jordan_elim(matrix, scaling = False, sigdig = 10):
             steps.append(Step(mat, f'R{j+1} <- R{j+1}-({multiplier})R{i+1}')) # log step
 
     return mat, steps
-
+    # return ans_gauss_jordan(mat, scaling, sigdig)
 
 def backward_substitution(matrix, steps, constants = None, sigdig = 10):
 
@@ -220,10 +220,9 @@ def GJ_substitution(matrix, steps, sigdig = 10):
 
 def forward_substitution(matrix, steps, constants = None, sigdig = 10):
 
+    n_eq = len(matrix)
     if constants:
         for i in range(n_eq): matrix[i].append(constants[i])
-    
-    n_eq = len(matrix)
     sol = [1]*n_eq
 
     for i in range(n_eq):
@@ -236,15 +235,26 @@ def forward_substitution(matrix, steps, constants = None, sigdig = 10):
     return sol, steps
 
 
+def ans_gauss(A, scaling = False, significant_digits = 10):
+    echelon, steps1 = gauss_elim(A, scaling, significant_digits)
+    sol, steps2 = backward_substitution(echelon, steps1, None, significant_digits)
+    return steps_to_string(steps2 , significant_digits)
 
-A = [
-    [1,-2,1,0],
-    [2,1,-3,5],
-    [4,-7,1,-1]
-]
 
-sig = 5
+def ans_gauss_jordan(A, scaling = False, significant_digits = 10):
+    rr_echelon, steps1 = gauss_jordan_elim(A, scaling, significant_digits)
+    sol, steps2 = GJ_substitution(rr_echelon, steps1, significant_digits)
+    return steps_to_string(steps2 , significant_digits)
 
-mat, steps1 = gauss_elim(matrix = A, sigdig = sig)
-sol, steps2 = backward_substitution(matrix = mat, steps = steps1, sigdig = sig)
-print(steps_to_string(steps2, sig))
+
+# A = [
+#     [1,-2,1,0],
+#     [2,1,-3,5],
+#     [4,-7,1,-1]
+# ]
+#
+# sig = 5
+#
+# mat, steps1 = gauss_elim(matrix = A, sigdig = sig)
+# sol, steps2 = backward_substitution(matrix = mat, steps = steps1, sigdig = sig)
+# print(steps_to_string(steps2, sig))

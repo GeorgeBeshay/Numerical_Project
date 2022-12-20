@@ -14,7 +14,7 @@ class Window:
 
         methods = [
             "Gauss Elimination",
-            "Gauss-Jodan",
+            "Gauss-Jordan",
             "Gauss-Seidel",
             "Jacobi-Iteration"
         ]
@@ -36,8 +36,8 @@ class Window:
             method = selected.get()
             if method == "Gauss Elimination":
                 print("in Gauss-Elimimation")
-            elif method == "Gauss-Jodan":
-                print("in Gauss-Jodan")
+            elif method == "Gauss-Jordan":
+                print("in Gauss-Jordan")
             elif method == "LU Doolittle Form":
                 print("in Doolittle Form")
             elif method == "LU Crout Form":
@@ -105,7 +105,7 @@ class Window:
                 parameters.append(prec)
 
                 method = selected.get()
-                if method == "Gauss Elimination" or method == "Gauss-Jodan" or method == "LU Doolittle Form":
+                if method == "Gauss Elimination" or method == "Gauss-Jordan" or method == "LU Doolittle Form":
                     scalable = tk.IntVar()
                     scale = tk.Checkbutton(frame1, text="Scaling", variable=scalable)
                     scale.grid(row=0, column=0, padx=5, pady=5)

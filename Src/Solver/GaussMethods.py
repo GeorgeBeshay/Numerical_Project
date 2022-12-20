@@ -1,16 +1,19 @@
 import copy, math
 # -------------------------------------------------------- UTILITY FUNCTIONS --------------------------------------------------------
 
+
 class Step:
     def __init__(self, matrix, description):
         self.matrix = copy.deepcopy(matrix)
         self.description = description
+
 
 def roundsig(x, digits = 10):
     if x == 0 or not math.isfinite(x):
         return x
     digits -= math.ceil(math.log10(abs(x)))
     return round(x, digits)
+
 
 def max_piv_row(temp, piv_index, scaling = False, sigdig = 10):
 
@@ -235,16 +238,20 @@ def forward_substitution(matrix, steps, constants = None, sigdig = 10):
     return sol, steps
 
 
-def ans_gauss(A, scaling = False, significant_digits = 10):
-    echelon, steps1 = gauss_elim(A, scaling, significant_digits)
+def ans_gauss(A, b, scaling = False, significant_digits = 10):
+    aug = copy.deepcopy(A)
+    for i in range(len(aug)): aug[i].append(b[i])
+    echelon, steps1 = gauss_elim(aug, scaling, significant_digits)
     sol, steps2 = backward_substitution(echelon, steps1, None, significant_digits)
-    return steps_to_string(steps2 , significant_digits)
+    return steps_to_string(steps2, significant_digits)
 
 
-def ans_gauss_jordan(A, scaling = False, significant_digits = 10):
-    rr_echelon, steps1 = gauss_jordan_elim(A, scaling, significant_digits)
+def ans_gauss_jordan(A, b, scaling = False, significant_digits = 10):
+    aug = copy.deepcopy(A)
+    for i in range(len(aug)): aug[i].append(b[i])
+    rr_echelon, steps1 = gauss_jordan_elim(aug, scaling, significant_digits)
     sol, steps2 = GJ_substitution(rr_echelon, steps1, significant_digits)
-    return steps_to_string(steps2 , significant_digits)
+    return steps_to_string(steps2, significant_digits)
 
 
 # A = [

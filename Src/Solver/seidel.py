@@ -9,7 +9,7 @@ def signif(x, digits=6):
     return round(x, digits)
 
 
-def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
+def seidel(A, b, N, x, max_error , precision):
     seidelSteps = ""
     seidelSteps += "N = " + str(N) + " , max_error = " + str(max_error)+"\n"  # do you want this
     if N==0:
@@ -18,14 +18,12 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
         precision = 10
     if max_error==0:
         max_error = 0.0000001
-    # Create an initial guess if not given
-    if x is None:
-        x = zeros(len(A[0]))
     x_new = x
 
     col = len(A[0])
     n = 0
     relative_error = 100 # any large number to make it enter the loop
+    
     for i in range (col):
         if A[i][i] == 0:
             seidelSteps = "Can not solve using Seidel"
@@ -68,12 +66,12 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
 
 #------------test--------------
 
-A = [[1,3,2,4,-3],[2,6,0,-1,-2],[0,0,6,2,-1], [1,3,-1,4,2],[0,0,0,0,0]]
-b = [-7,0,12,-6,0]
-# guess = [1.0,0.0,1.0]
-N = None
-seidelSteps = seidel(A, b, N=50, x=None, precision=10,max_error=0.05)
-print(seidelSteps)
+# A = [[1,3,2,4,-3],[2,6,0,-1,-2],[0,0,6,2,-1], [1,3,-1,4,2],[0,0,0,0,0]]
+# b = [-7,0,12,-6,0]
+# # guess = [1.0,0.0,1.0]
+# N = None
+# seidelSteps = seidel(A, b, N=50, x=None, precision=10,max_error=0.05)
+# print(seidelSteps)
 # sol = seidel(A,b,N=25,x=guess)
 
 

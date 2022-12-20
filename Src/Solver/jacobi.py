@@ -8,7 +8,7 @@ def signif(x, digits=6):
     digits -= math.ceil(math.log10(abs(x)))
     return round(x, digits)
 
-def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
+def jacobi(A , b , N, x , max_error , precision ):
     jacSteps = ""
     jacSteps += "N = " + str(N) + " , max_error = " + str(max_error) + "\n"
     if N==0 :
@@ -17,10 +17,6 @@ def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
         precision = 10
     if max_error==0:
         max_error = 0.0000001
-    # Create an initial guess if not given 
-    if x is None:
-        x = [0] * len(A)
-
     x_new = [0]* len(A)
 
     x_new = copy.deepcopy(x)

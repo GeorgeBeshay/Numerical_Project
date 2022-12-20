@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from numberCheck import *
 # from jacobi import *
 # Window
 
@@ -28,40 +29,6 @@ class Window:
         sublist1.add_command(label="Cholesky Form",
                              command=lambda: selected.set("LU Cholesky Form"))
         menu.add_cascade(label="LU Decomposition", menu=sublist1)
-
-        def numberE(entr):
-            isInt = True
-            num = -1
-            try:
-                int(entr.get())
-                entr.config(highlightthickness=0, bg="white")
-                isInt = True
-                num = int(entr.get())
-            except ValueError:
-                entr.config(highlightthickness=2, highlightbackground="red",
-                            bg="red", highlightcolor="red")
-                # , bg="red"
-                isInt = False
-            return isInt, num
-
-        def isFloat(entr):
-                isfloat = True
-                num = -1
-                try:
-                    float(entr.get())
-                    entr.config(highlightthickness=0, bg="white")
-                    isfloat = True
-                    num = float(entr.get())
-                except ValueError:
-                    if not entr.get():
-                        num = 0
-                        isfloat = True
-                    else:
-                        entr.config(highlightthickness=2, highlightbackground="red",
-                                    bg="red", highlightcolor="red")
-                        isfloat = False
-
-                return isfloat, num
 
 
         def selectMethod():
@@ -105,7 +72,7 @@ class Window:
 
         def CreateEntry():
 
-            create, num = numberE(numberEquations)
+            create, num = isIntger(numberEquations)
             selectMethod()
             if create == True:
                 frame = tk.LabelFrame(

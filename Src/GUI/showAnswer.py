@@ -1,5 +1,6 @@
 import Src.Solver.Header as SH
 import tkinter as tk
+from numberCheck import *
 # Module is responsible for displaying the answer.
 # Parameters:
 # > Matrix A
@@ -16,23 +17,32 @@ import tkinter as tk
 # ------------------------- Separator -------------------------
 def getSolutionText(A,  B, METHOD_NAME, parameters):
     Ans = ""
-    PRECISION = int(parameters[0].get())
+    PRECISION=0
+    isInt, num = isIntger(parameters[0])
+    if isInt:
+        PRECISION = num
     # ------------------------- Separator -------------------------
-    if METHOD_NAME == 'Jacobi-Iteration':
+    if METHOD_NAME == 'Jacobi-Iteration' or METHOD_NAME == 'Gauss-Seidel':
         INIT_GUESS = [0 for i in range(len(A))]
         for i in range(len(A)):
-            INIT_GUESS=float(parameters[1][i].get())
-        IT_NUM=int(parameters[2].get())
-        E_TOL=int(parameters[3].get())
-        Ans = SH.JAC(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+            isfloat, num = isFloat(parameters[1][i])
+            if isfloat:
+                INIT_GUESS[i] = num
 
-    elif METHOD_NAME == 'Gauss-Seidel':
-        INIT_GUESS = [0 for i in range(len(A))]
-        for i in range(len(A)):
-            INIT_GUESS = float(parameters[1][i].get())
-        IT_NUM = int(parameters[2].get())
-        E_TOL = int(parameters[3].get())
-        Ans = SH.SEIDEL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+        IT_NUM=0
+        isInt, num = isIntger(parameters[2])
+        if isInt:
+            IT_NUM=num
+
+        E_TOL=0
+        isInt, num = isFloat(parameters[3])
+        if isInt:
+            E_TOL = num
+
+        if METHOD_NAME == 'Jacobi-Iteration':
+            Ans = SH.JAC(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+        else:
+            Ans = SH.SEIDEL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
 
     elif METHOD_NAME == 'Gauss-Jordan':
         SC_FLAG= bool(parameters[1].get())

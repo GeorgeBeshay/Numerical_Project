@@ -1,4 +1,4 @@
-import Solver.Header as SH
+import Src.Solver.Header as SH
 import tkinter as tk
 # Module is responsible for displaying the answer.
 # Parameters:
@@ -32,7 +32,7 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
             INIT_GUESS = float(parameters[1][i].get())
         IT_NUM = int(parameters[2].get())
         E_TOL = int(parameters[3].get())
-        Ans = SH.SEIDAL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+        Ans = SH.SEIDEL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
 
     elif METHOD_NAME == 'Gauss-Jordan':
         SC_FLAG= bool(parameters[1].get())

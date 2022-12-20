@@ -28,6 +28,10 @@ def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
     col = len(A[0])
     n = 0
     relative_error = 100 # any large number to make it enter the loop
+    for i in range (col):
+        if A[i][i] == 0:
+            jacSteps = "Can not solve using Jacobi"
+            return jacSteps
 
     while n < N and relative_error > max_error:
         jacSteps += "============================= The "+ str(n)+ " Iteration =============================\n"

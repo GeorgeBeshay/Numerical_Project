@@ -26,6 +26,11 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
     col = len(A[0])
     n = 0
     relative_error = 100 # any large number to make it enter the loop
+    for i in range (col):
+        if A[i][i] == 0:
+            seidelSteps = "Can not solve using Seidel"
+            return seidelSteps
+
 
     while n < N and relative_error > max_error:
         seidelSteps += "============================= The "+ str(n)+ " Iteration =============================\n"
@@ -40,14 +45,14 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
             for j in range (col):
                 if i != j:
                     equation = equation + ' - A['+str(i) +']['+ str(j)+ '] * x[' + str(j)+ ']'
-                    calc = calc + ' - '+str(A[i][j]) + ' * ' +str(x[j])
+                    calc = calc + ' - '+ str(A[i][j]) + ' * ' + str(x[j])
                     sum = signif(sum + A[i][j] * x[j] , precision)
 
             x_new[i] = signif((b[i] - sum) / A[i][i], precision)
             if i == 0:
                 relative_error = (abs((x_new[i]-current_x)/x_new[i])) * 100
             elif (abs(x_new[i]-current_x)/x_new[i]) * 100 > relative_error:
-                relative_error = (abs((x_new[i]-current_x)/x_new[i])) * 100#
+                relative_error = (abs((x_new[i]-current_x)/x_new[i])) * 100
 
             seidelSteps += 'x_new[' + str(i) + '] = (b['+ str(i) + ']'+ equation + ') /  A['+str(i) +']['+ str(i)+ '] = ('+ str(b[i]) + calc + ') / ' + str(A[i][i])+ ' = ' + str(x_new[i]) + "\n"
         seidelSteps += "++++++++++++++++++++++++++++++++++++++++\n"
@@ -63,14 +68,14 @@ def seidel(A, b, N = 50, x = None, max_error = 0.0000001, precision = 10):
 
 #------------test--------------
 
-# A = [[12,3,-5],[1,5.0,3.0],[3.0,7.0,13.0]]
-# b = [1.0,28.0,76.0]
+A = [[1,3,2,4,-3],[2,6,0,-1,-2],[0,0,6,2,-1], [1,3,-1,4,2],[0,0,0,0,0]]
+b = [-7,0,12,-6,0]
 # guess = [1.0,0.0,1.0]
-# N = None
-
+N = None
+seidelSteps = seidel(A, b, N=50, x=None, precision=10,max_error=0.05)
+print(seidelSteps)
 # sol = seidel(A,b,N=25,x=guess)
 
-# seidelSteps = seidel(A, b, N=20, x=guess, precision=5)
-# print(seidelSteps)
+
 
 

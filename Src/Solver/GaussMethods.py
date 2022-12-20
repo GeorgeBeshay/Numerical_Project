@@ -146,66 +146,15 @@ def backward_substitution(matrix, steps, constants = None, sigdig = 10):
 
         sum = 0
         for j in range(i+1,n_eq): sum = roundsig(sum + sol[j]*matrix[i][j] , sigdig)
+        if matrix[i][i]==0:
+            infinitesol=True
+            continue
         sol[i] = roundsig((matrix[i][n_eq]-sum)/matrix[i][i] , sigdig)
         stepstr = f'X[{i+1}] = ({matrix[i][n_eq]}-{sum})'
         if matrix[i][i] != 1:
             stepstr += f'/{matrix[i][i]}'
         stepstr += f' = {sol[i]}'
         steps.append(Step(None , stepstr))
-
-    stepstr = f'The solution vector is ('
-    for i in range(n_eq-1): stepstr += f'{sol[i]}, '
-    stepstr += f'{sol[n_eq-1]}). '
-
-    if infinitesol:
-        stepstr += f'This is one of an infinite number of solutions.'
-    else:
-        stepstr += f'This is a unique solution.'
-
-    steps.append(Step(None , stepstr))
-
-    return sol, steps
-
-
-def GJ_substitution(matrix, steps, sigdig = 10):
-
-    n_eq = len(matrix)
-    # index of the first non-zero pivot
-    firstnonzero = n_eq-1
-    # if there are infinite solutions, we set all free variables to 1
-    infinitesol = False
-    sol = [1]*n_eq # initialize solution vector with 1's
-
-    # loop to check for free variables and inconsistent systems
-    for i in range(n_eq-1, 0, -1): 
-
-        if matrix[i][i] == 0: 
-            if matrix[i][n_eq] != 0:
-                raise Exception("Inconsistent System")
-            else:
-                infinitesol = True
-                firstnonzero -= 1
-                continue
-        else:
-            break
-
-    if firstnonzero == n_eq-1: # there are no free variables, solution is just the last column
-        for i in range(n_eq):
-            sol[i] = matrix[i][n_eq]
-            steps.append(Step(None , f'X[{i+1}] = {sol[i]}'))
-    else: # there are free variables whose columns are not eliminated
-        for i in range(n_eq):
-            sol[i] = matrix[i][n_eq]
-            for j in range (firstnonzero+1, n_eq): 
-                sol[i] = roundsig(sol[i] - matrix[i][j] , sigdig)
-
-        for i in range(n_eq):
-            sol[i] = matrix[i][n_eq]
-            sum = 0
-            for j in range (firstnonzero+1, n_eq): 
-                sum = roundsig(sum + matrix[i][j] , sigdig)
-            sol[i] = roundsig(matrix[i][n_eq]-sum , sigdig)
-            steps.append(Step(None , f'X[{i+1}] = {matrix[i][n_eq]}-{sum} = {sol[i]}'))
 
     stepstr = f'The solution vector is ('
     for i in range(n_eq-1): stepstr += f'{sol[i]}, '
@@ -254,7 +203,7 @@ def ans_gauss_jordan(A, b, scaling = False, significant_digits = 10):
     aug = copy.deepcopy(A)
     for i in range(len(aug)): aug[i].append(b[i])
     rr_echelon, steps1 = gauss_jordan_elim(aug, scaling, significant_digits)
-    sol, steps2 = GJ_substitution(rr_echelon, steps1, significant_digits)
+    sol, steps2 = backward_substitution(rr_echelon, steps1, significant_digits)
     return steps_to_string(steps2, significant_digits)
 
 

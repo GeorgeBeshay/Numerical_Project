@@ -35,7 +35,7 @@ def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
             for j in range (col):
                 if i != j:
                     equation = equation + ' - A['+str(i) +']['+ str(j)+ '] * x_old[' + str(j)+ ']'
-                    calc = calc + ' - '+str(A[i][j]) + ' * ' +str(x[j])
+                    calc = calc + ' - '+str(A[i][j]) + ' * ' + str(x[j])
                     sum = signif(sum + A[i][j] * x[j], precision)
 
             x_new[i] = signif((b[i] - sum) / A[i][i] , precision)
@@ -61,7 +61,8 @@ def jacobi(A , b , N = 50 , x = None , max_error = 0.0000001, precision = 10):
 A = [[2.77,1.0,3.0],[5.0,7.0,4.0],[1.0,1.0,1.0]]
 b =[11.0,13.0,7.0]
 guess = [1.0,1.0,1.0]
-
+# A=[[2,6],[1,3]]
+# b=[7,5]
 # A = [[5,-2,3],[-3,9,1],[2,-1,-7]]
 # b= [-1,2,3]
 # guess = None

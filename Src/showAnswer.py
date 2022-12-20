@@ -14,32 +14,53 @@ import tkinter as tk
 
 
 # ------------------------- Separator -------------------------
-def getSolutionText(A,  B, METHOD_NAME, PRECISION, IT_NUM, E_TOL, INIT_GUESS, PIV_FLAG, SC_FLAG):
+def getSolutionText(A,  B, METHOD_NAME, parameters):
     Ans = ""
+    PRECISION = int(parameters[0].get())
     # ------------------------- Separator -------------------------
     if METHOD_NAME == 'Jacobi-Iteration':
+        INIT_GUESS = [0 for i in range(len(A))]
+        for i in range(len(A)):
+            INIT_GUESS=float(parameters[1][i].get())
+        IT_NUM=int(parameters[2].get())
+        E_TOL=int(parameters[3].get())
         Ans = SH.JAC(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+
     elif METHOD_NAME == 'Gauss-Seidel':
+        INIT_GUESS = [0 for i in range(len(A))]
+        for i in range(len(A)):
+            INIT_GUESS = float(parameters[1][i].get())
+        IT_NUM = int(parameters[2].get())
+        E_TOL = int(parameters[3].get())
         Ans = SH.SEIDAL(A, B, IT_NUM, INIT_GUESS, E_TOL, PRECISION)
+
     elif METHOD_NAME == 'Gauss-Jordan':
-        Ans = SH.GJE(A, SC_FLAG)
+        SC_FLAG= bool(parameters[1].get())
+        Ans = SH.GJE(A, SC_FLAG, PRECISION)
+
     elif METHOD_NAME == 'Gauss Elimination':
-        Ans = SH.GE(A, SC_FLAG)
+        SC_FLAG = bool(parameters[1].get())
+        Ans = SH.GE(A, SC_FLAG, PRECISION)
+
     elif METHOD_NAME == 'LU Crout Form':
-        Ans = SH.LU_CR()
-    elif METHOD_NAME == 'LU Doolittle Form':
-        Ans = SH.LU_D()
+        Ans = SH.LU_CR(A, PRECISION)
+
+    elif METHOD_NAME == 'LU Doolittle Form':#scaling
+        SC_FLAG = bool(parameters[1].get())
+        Ans = SH.LU_D(A, B, SC_FLAG, PRECISION)
+
     elif METHOD_NAME == 'LU Cholesky Form':
-        Ans = SH.LU_CH()
+        Ans = SH.LU_CH(A, PRECISION)
+
     else:
         Ans = 'ERROR: INVALID SOLVING METHOD'
     # ------------------------- Separator -------------------------
     return Ans
 
 
-def showAnswer(A,  B, METHOD_NAME, PRECISION, IT_NUM, E_TOL, INIT_GUESS, PIV_FLAG, SC_FLAG):
+def showAnswer(A,  B, METHOD_NAME, parameters):
     # ------------------------- Separator -------------------------
-    Ans = getSolutionText(A,  B, METHOD_NAME, PRECISION, IT_NUM, E_TOL, INIT_GUESS, PIV_FLAG, SC_FLAG)
+    Ans = getSolutionText(A,  B, METHOD_NAME, parameters)
     # ------------------------- Separator -------------------------
     answerWindow = tk.Tk()
     answerWindow.title('Application Answer Window')

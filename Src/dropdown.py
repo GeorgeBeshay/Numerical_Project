@@ -98,6 +98,8 @@ class Window:
             print(matA)
             print("B = ")
             print(matB)
+            print("scalable = ")
+            print(bool(parameters[1].get()))
 
             # Call george's function give it A, B, parameters
 
@@ -134,8 +136,10 @@ class Window:
 
                 method = selected.get()
                 if method == "Gauss Elimination" or method == "Gauss-Jodan" or method == "LU Doolittle Form":
-                    parameters.append(tk.Checkbutton(frame1, text="Scaling").grid(
-                        row=0, column=0, padx=5, pady=5))
+                    scalable = tk.IntVar()
+                    scale = tk.Checkbutton(frame1, text="Scaling", variable=scalable)
+                    scale.grid(row=0, column=0, padx=5, pady=5)
+                    parameters.append(scalable)
                 elif method == "Gauss-Seidel" or method == "Jacobi-Iteration":
                     initialGuess = tk.Label(frame1)
                     initialGuess.configure(text="Initial Guess")

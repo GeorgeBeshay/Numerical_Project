@@ -12,7 +12,7 @@ def roundsig(x, digits = 10):
     digits -= math.ceil(math.log10(abs(x)))
     return round(x, digits)
 
-def max_piv_row(temp, piv_index, sigdig = 10, scaling = False):
+def max_piv_row(temp, piv_index, scaling = False, sigdig = 10):
 
     if scaling: # change the target part so each row is normalized by its largest coefficient
         for i in range(piv_index, len(temp)):
@@ -32,25 +32,35 @@ def max_piv_row(temp, piv_index, sigdig = 10, scaling = False):
 
     return maxrow
 
-def view_matrix(mat):
-    for i in mat:
-        for j in i:
-            print(f'{j}   ', end = '')
-        print("\n")
-    print('\n')
+
+def steps_to_string(steps, dig):
+    ans = f''
+    for step in steps:
+        ans += step.description + '\n\n'
+        if step.matrix:
+            for i in step.matrix:
+                for j in i:
+                    ans += f'{j:{dig+6}.{dig}f}'
+                ans += '\n\n'
+            ans += '\n\n'
+    
+    return ans
+
 
 # -------------------------------------------------------- UTILITY FUNCTIONS --------------------------------------------------------
 
 
-def gauss_elim(mat, scaling = False, sigdig = 10): 
+def gauss_elim(matrix, scaling = False, sigdig = 10): 
 
+    mat = copy.deepcopy(matrix)
     n_eq = len(mat)
     steps = []
+    steps.append(Step(mat , f'A = '))
     # pivots loop loops n_eq-1 times because the matrix will be upper
     # triangular by the time we have reached the last pivot
     for i in range(n_eq-1):
 
-        iswitch = max_piv_row(copy.deepcopy(mat), i, scaling)
+        iswitch = max_piv_row(copy.deepcopy(mat), i, scaling, sigdig)
         if (iswitch != i):
             mat[i] , mat[iswitch] = mat[iswitch] , mat[i] # switch with larget pivot row
             steps.append(Step(mat , f'Switch R{i+1} and R{iswitch+1} to get the maximum pivot.')) # log step
@@ -68,14 +78,14 @@ def gauss_elim(mat, scaling = False, sigdig = 10):
 
             steps.append(Step(mat ,f'R{j+1} <- R{j+1}-({multiplier})R{i+1}')) # log step
     
-    return steps
+    return mat, steps
 
 
 
-def gauss_jordan_elim(mat, scaling = False, sigdig = 10):
+def gauss_jordan_elim(matrix, scaling = False, sigdig = 10):
 
     n_eq = len(mat)
-    steps = gauss_elim(mat, scaling, sigdig)
+    mat , steps = gauss_elim(matrix, scaling, sigdig)
 
     # reverse pivot loop
     for i in range(n_eq-1, -1, -1):
@@ -102,12 +112,15 @@ def gauss_jordan_elim(mat, scaling = False, sigdig = 10):
                 mat[j][k] = roundsig(mat[j][k]-multiplier*mat[i][k] , sigdig)
             steps.append(Step(mat, f'R{j+1} <- R{j+1}-({multiplier})R{i+1}')) # log step
 
-    return steps
+    return mat, steps
 
 
-def backward_substitution(mat, sigdig = 10):
+def backward_substitution(matrix, steps, constants = None, sigdig = 10):
 
-    n_eq = len(mat)
+    n_eq = len(matrix)
+
+    if constants:
+        for i in range(n_eq): matrix[i].append(constants[i])
 
     # gauss elimination puts all zero rows at the bottom,
     # so we loop over them with this boolean
@@ -119,8 +132,8 @@ def backward_substitution(mat, sigdig = 10):
 
     for i in range(n_eq-1, -1, -1):
 
-        if zeropivots and mat[i][i] == 0: 
-            if mat[i][n_eq] != 0:
+        if zeropivots and matrix[i][i] == 0: 
+            if matrix[i][n_eq] != 0:
                 raise Exception("Inconsistent System")
             else:
                 infinitesol = True
@@ -128,16 +141,32 @@ def backward_substitution(mat, sigdig = 10):
         else:
             zeropivots = False
 
-        sol[i] = mat[i][n_eq]
-        for j in range(i+1,n_eq): sol[i] = roundsig(sol[i] - sol[j]*mat[i][j] , sigdig)
-        sol[i] = roundsig(sol[i]/mat[i][i] , sigdig)
+        sum = 0
+        for j in range(i+1,n_eq): sum = roundsig(sum + sol[j]*matrix[i][j] , sigdig)
+        sol[i] = roundsig((matrix[i][n_eq]-sum)/matrix[i][i] , sigdig)
+        stepstr = f'X[{i+1}] = ({matrix[i][n_eq]}-{sum})'
+        if matrix[i][i] != 1:
+            stepstr += f'/{matrix[i][i]}'
+        stepstr += f' = {sol[i]}'
+        steps.append(Step(None , stepstr))
 
-    return sol, infinitesol
+    stepstr = f'The solution vector is ('
+    for i in range(n_eq-1): stepstr += f'{sol[i]}, '
+    stepstr += f'{sol[n_eq-1]}). '
+
+    if infinitesol:
+        stepstr += f'This is one of an infinite number of solutions.'
+    else:
+        stepstr += f'This is a unique solution.'
+
+    steps.append(Step(None , stepstr))
+
+    return sol, steps
 
 
-def GJ_substitution(mat, sigdig = 10):
+def GJ_substitution(matrix, steps, sigdig = 10):
 
-    n_eq = len(mat)
+    n_eq = len(matrix)
     # index of the first non-zero pivot
     firstnonzero = n_eq-1
     # if there are infinite solutions, we set all free variables to 1
@@ -147,8 +176,8 @@ def GJ_substitution(mat, sigdig = 10):
     # loop to check for free variables and inconsistent systems
     for i in range(n_eq-1, 0, -1): 
 
-        if mat[i][i] == 0: 
-            if mat[i][n_eq] != 0:
+        if matrix[i][i] == 0: 
+            if matrix[i][n_eq] != 0:
                 raise Exception("Inconsistent System")
             else:
                 infinitesol = True
@@ -158,51 +187,64 @@ def GJ_substitution(mat, sigdig = 10):
             break
 
     if firstnonzero == n_eq-1: # there are no free variables, solution is just the last column
-        for i in range(n_eq): sol[i] = mat[i][n_eq]
+        for i in range(n_eq):
+            sol[i] = matrix[i][n_eq]
+            steps.append(Step(None , f'X[{i+1}] = {sol[i]}'))
     else: # there are free variables whose columns are not eliminated
         for i in range(n_eq):
-            sol[i] = mat[i][n_eq]
-            for j in range (firstnonzero+1, n_eq): sol[i] -= mat[i][j]
+            sol[i] = matrix[i][n_eq]
+            for j in range (firstnonzero+1, n_eq): 
+                sol[i] = roundsig(sol[i] - matrix[i][j] , sigdig)
 
-    return sol, infinitesol
+        for i in range(n_eq):
+            sol[i] = matrix[i][n_eq]
+            sum = 0
+            for j in range (firstnonzero+1, n_eq): 
+                sum = roundsig(sum + matrix[i][j] , sigdig)
+            sol[i] = roundsig(matrix[i][n_eq]-sum , sigdig)
+            steps.append(Step(None , f'X[{i+1}] = {matrix[i][n_eq]}-{sum} = {sol[i]}'))
+
+    stepstr = f'The solution vector is ('
+    for i in range(n_eq-1): stepstr += f'{sol[i]}, '
+    stepstr += f'{sol[n_eq-1]}). '
+
+    if infinitesol:
+        stepstr += f'This is one of an infinite number of solutions.'
+    else:
+        stepstr += f'This is a unique solution.'
+
+    steps.append(Step(None , stepstr))
+
+    return sol, steps
 
 
-def forward_substitution(mat, sigdig = 10):
+def forward_substitution(matrix, steps, constants = None, sigdig = 10):
 
-    n_eq = len(mat)
+    if constants:
+        for i in range(n_eq): matrix[i].append(constants[i])
+    
+    n_eq = len(matrix)
     sol = [1]*n_eq
 
     for i in range(n_eq):
-        sol[i] = mat[i][n_eq]
-        for j in range(i): sol[i]  = roundsig(sol[i]-sol[j]*mat[i][j], sigdig)
-        sol[i] = roundsig(sol[i]/mat[i][i], sigdig)
+        sol[i] = matrix[i][n_eq]
+        sum = 0
+        for j in range(i): sum = roundsig(sum + sol[j]*matrix[i][j], sigdig)
+        sol[i] = roundsig((matrix[i][n_eq]-sum)/matrix[i][i], sigdig)
+        steps.append(Step(None, f'y[{i+1}] = ({matrix[i][n_eq]}-{sum})'))
 
-    return sol
+    return sol, steps
 
 
 
 A = [
-    [1,1,-3,4],
-    [2,1,-1,2],
-    [3,2,-4,7]
+    [1,-2,1,0],
+    [2,1,-3,5],
+    [4,-7,1,-1]
 ]
 
 sig = 5
 
-steps1 = gauss_elim(copy.deepcopy(A), sig)
-steps2 = gauss_jordan_elim(copy.deepcopy(A), sig)
-
-for step in steps2:
-    print(step.description)
-    view_matrix(step.matrix)
-
-
-for step in steps1:
-    print(step.description + "\n")
-    view_matrix(step.matrix)
-sol,infinite = backward_substitution(steps1[len(steps1)-1].matrix, sig)
-
-for elem in sol: print(elem)
-
-print(f'\n{infinite}')
-
+mat, steps1 = gauss_elim(matrix = A, sigdig = sig)
+sol, steps2 = backward_substitution(matrix = mat, steps = steps1, sigdig = sig)
+print(steps_to_string(steps2, sig))

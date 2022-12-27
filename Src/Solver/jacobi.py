@@ -1,7 +1,7 @@
 # This is Jacobi 
 import copy
 import math
-
+# to find the number till the given significant figures or precision
 def signif(x, digits=6):
     if x == 0 or not math.isfinite(x):
         return x
@@ -9,8 +9,8 @@ def signif(x, digits=6):
     return round(x, digits)
 
 def jacobi(A , b , N, x , max_error , precision ):
-    jacSteps = ""
-    jacSteps += "N = " + str(N) + " , max_error = " + str(max_error) + "\n"
+    jacSteps = "" # this will be printed
+    
     if N==0 :
         N = 50
     if precision==0:
@@ -18,7 +18,7 @@ def jacobi(A , b , N, x , max_error , precision ):
     if max_error==0:
         max_error = 0.0000001
     x_new = [0]* len(A)
-
+    jacSteps += "N = " + str(N) + " , max_error = " + str(max_error) + "\n"
     x_new = copy.deepcopy(x)
 
     col = len(A[0])

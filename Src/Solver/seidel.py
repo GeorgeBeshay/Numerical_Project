@@ -11,7 +11,6 @@ def signif(x, digits=6):
 
 def seidel(A, b, N, x, max_error , precision):
     seidelSteps = ""
-    seidelSteps += "N = " + str(N) + " , max_error = " + str(max_error)+"\n"  # do you want this
     if N==0:
         N = 50
     if precision==0:
@@ -19,6 +18,8 @@ def seidel(A, b, N, x, max_error , precision):
     if max_error==0:
         max_error = 0.0000001
     x_new = x
+
+    seidelSteps += "N = " + str(N) + " , max_error = " + str(max_error)+"\n"  # do you want this
 
     col = len(A[0])
     n = 0
@@ -66,12 +67,15 @@ def seidel(A, b, N, x, max_error , precision):
     return seidelSteps
 
 #------------test--------------
+# A = [[2.77,1.0,3.0],[5.0,7.0,4.0],[1.0,1.0,1.0]]
+# b =[11.0,13.0,7.0]
+# guess = [1.0,1.0,1.0]
+
 
 # A = [[1,3,2,4,-3],[2,6,0,-1,-2],[0,0,6,2,-1], [1,3,-1,4,2],[0,0,0,0,0]]
 # b = [-7,0,12,-6,0]
-# # guess = [1.0,0.0,1.0]
-# N = None
-# seidelSteps = seidel(A, b, N=50, x=None, precision=10,max_error=0.05)
+
+# seidelSteps = seidel(A, b, N=50, x, precision=10,max_error=0.05)
 # print(seidelSteps)
 # sol = seidel(A,b,N=25,x=guess)
 

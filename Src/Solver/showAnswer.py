@@ -7,7 +7,11 @@ import Src.Solver.GaussMethods as GM
 import Src.Solver.Crout as LU_CR
 import Src.Solver.LUDoolittle as LU_D
 import Src.Solver.Cholesky as LU_CH
-
+import Src.Solver.bisectionMethode as BI
+import Src.Solver.FalsePosition as FL
+import Src.Solver.newton_raphson as NR
+import Src.Solver.Fixed_Point_Iteration as FB
+import Src.Solver.secantMethod as SC
 
 import time
 
@@ -26,7 +30,8 @@ from numberCheck import *
 # > bool scaling
 
 # ------------------------- Separator -------------------------
-def getSolutionText(A,  B, METHOD_NAME, parameters):
+def getSolution1(A,  B, METHOD_NAME, parameters):
+    startTime = time.time_ns()
     Ans = ""
     PRECISION=0
     print(parameters[0])
@@ -89,16 +94,76 @@ def getSolutionText(A,  B, METHOD_NAME, parameters):
     else:
         Ans = 'ERROR: INVALID SOLVING METHOD'
     # ------------------------- Separator -------------------------
-    return Ans
-
-
-def showAnswer(A,  B, METHOD_NAME, parameters):
-    # ------------------------- Separator -------------------------
-    startTime = time.time_ns()
-    Ans = getSolutionText(A,  B, METHOD_NAME, parameters)
     endTime = time.time_ns()
-    runtime = (endTime - startTime) / (10**6)
+    runtime = (endTime - startTime) / (10 ** 6)
     Ans += f'\nruntime = {runtime} ms'
+    showAnswer(Ans, METHOD_NAME)
+
+def getSolution2(METHOD_NAME, parameters):
+    startTime = time.time_ns()
+    Ans = ""
+    fun=parameters[0].get()
+
+    PRECISION = 0
+    isInt, num = isIntger(parameters[1])
+    if isInt:
+        PRECISION = num
+
+    iteration = 0
+    isInt, num = isIntger(parameters[2])
+    if isInt:
+        iteration = num
+
+    eps = 0
+    isf, num = isFloat(parameters[3])
+    if isf:
+        eps = num
+
+    if METHOD_NAME == "Bisection" or METHOD_NAME == "False-Position":
+        xl = 0
+        isf, num = isFloat(parameters[4])
+        if isf:
+            xl = num
+        xu = 0
+        isf, num = isFloat(parameters[5])
+        if isf:
+            xu = num
+        if METHOD_NAME == "Bisection":
+            Ans+=BI.bisection(fun,xl,xu,iteration,eps,PRECISION)
+        elif METHOD_NAME == "False-Position":
+            Ans+= FL.false_position(fun,xl,xu,eps,iteration,PRECISION)
+    elif METHOD_NAME == "Fixed point":
+        x0 = 0
+        isf, num = isFloat(parameters[4])
+        if isf:
+            x0 = num
+        g = parameters[5].get()
+        Ans+=FB.FPI(fun,g,x0,eps,iteration,PRECISION)
+
+    elif METHOD_NAME == "Newton-Raphson":
+        x0 = 0
+        isf, num = isFloat(parameters[4])
+        if isf:
+            x0 = num
+        Ans+=NR.newton(fun,x0,eps,iteration,PRECISION)
+
+    elif METHOD_NAME == "Secant-Method":
+        x0 = 0
+        isf, num = isFloat(parameters[4])
+        if isf:
+            x0 = num
+        x1 = 0
+        isf, num = isFloat(parameters[5])
+        if isf:
+            x1 = num
+        Ans+=SC.secant(fun,x0,x1,iteration,eps,PRECISION)
+
+    endTime = time.time_ns()
+    runtime = (endTime - startTime) / (10 ** 6)
+    Ans += f'\nruntime = {runtime} ms'
+    showAnswer(Ans, METHOD_NAME)
+
+def showAnswer(Ans, METHOD_NAME):
     # ------------------------- Separator -------------------------
     answerWindow = tk.Tk()
     answerWindow.title('Application Answer Window')

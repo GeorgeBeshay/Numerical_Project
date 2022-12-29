@@ -6,6 +6,9 @@ def signif(x, digits=6):
     digits -=ceil(log10(abs(x)))
     return round(x, digits)
 
+def function(f,x):
+    return eval(f)
+
 def bisection(f,xl,xu,N,EPS,percision):
     ans=''
     if N==0:
@@ -58,8 +61,8 @@ def bisection(f,xl,xu,N,EPS,percision):
 
 
 
-def function(f,x):
-    return eval(f)
+
+
 f="x**4+3*x-4"
 
 a=bisection(f,0,3,0,0,6)

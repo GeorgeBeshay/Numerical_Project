@@ -118,7 +118,6 @@ def getSolution2(METHOD_NAME, parameters):
     isf, num = isFloat(parameters[3])
     if isf:
         eps = num
-
     if METHOD_NAME == "Bisection" or METHOD_NAME == "False-Position":
         xl = 0
         isf, num = isFloat(parameters[4])

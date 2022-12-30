@@ -8,6 +8,14 @@ def roundsig(x, digits=6):
 
 
 def false_position(function, x_lower, x_upper, tolerance, maxit = 50, sigdig = 10):
+
+    if maxit == 0:
+        maxit = 50
+    if tolerance == 0:
+        tolerance = 10 ** -5
+    if sigdig == 0:
+        sigdig = 10
+
     fx_lower = roundsig(eval(function, {"x": x_lower}), sigdig)
     fx_upper = roundsig(eval(function, {"x": x_upper}), sigdig)
     steps = f'\nf(x) = {function}\nInitial boundaries: Xl = {x_lower}, Xu = {x_upper}, f(Xl) = {fx_lower}, f(Xu) = {fx_upper}.\n'

@@ -24,6 +24,7 @@ def secant(f, x0, x1, iterations, tol, precision):
         tol = 10**-5
     if precision == 0:
         precision = 10
+
     if x0 == x1:
         return f"The initial gusses must be not equal\n"
 

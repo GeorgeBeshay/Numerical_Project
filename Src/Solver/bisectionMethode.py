@@ -44,7 +44,7 @@ def bisection(f,xl,xu,N,EPS,percision):
             ans += "xr = (xu+xl)/2 = " + str(xr) + "\n"
             ans += "f(xr) = 0\n"
             ans += "Relative error = " + str(relative_error) + "\n"
-            break;
+            break
         ans += "Iteration " + str(n) + " :\n"
         ans += "xl = " + str(xl) + "\nxu = " + str(xu) + "\n"
         ans += "xr = (xu+xl)/2 = " + str(xr) + "\n"

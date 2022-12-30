@@ -12,7 +12,7 @@ def roundSig(x, digits=10):
     return round(x, digits)
 
 
-def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 0.01, max_iter: int = 50, digits=10):
+def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 10 ** -5, max_iter: int = 50, digits=10):
     if max_iter == 0:
         max_iter = 50
     if Es == 0:

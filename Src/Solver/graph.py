@@ -47,18 +47,17 @@ def showGrpah(methodName, params):
                 plt.ylabel("g(x)")
                 plt.show()
         elif methodName == "Newton-Raphson":
-                # parms = [func ,xi, x]
+                # parms = [func ,xi, x, derfunc]
                 func = params[0]
                 xi = params[1]
                 x = params[2]
-                # the derivative
-                sym = symbols("x")
-                derfunc = str(diff(func , sym))
+                derfunc = params[3]
                 plt.figure()
                 if x > xi:
                         xlist = np.linspace(xi , x*2 , num=1000)
                 else:
                         xlist = np.linspace(x*2 , xi , num=1000)
+                print(xlist)
                 ylist = f(func,xlist)
                 yderlist = f(derfunc, xlist)
                 plt.plot(xlist,ylist,label= "f(x)")
@@ -88,8 +87,10 @@ def showGrpah(methodName, params):
                 plt.ylabel("f(x)")
                 plt.show()
 
-showGrpah("Bisection", ["x**4+3*x-4",0,3])
+# showGrpah("Bisection", ["x**4+3*x-4",0,3])
 # showGrpah("False-Position", ["x**3-x-1",1,2])
 # showGrpah("Fixed point", ['3/(x-2)',0,-1])
 # showGrpah("Newton-Raphson", ["x**2 - 2" , 1 , 1.414215686])
+showGrpah("Newton-Raphson", ["np.exp(-x)-x" , 0 , 0.567143165, "-1 - np.exp(-x)"])
+
 # showGrpah("Secant-Method", ["x**3-x**2-10*x+7" , 3, 4,3.35746])

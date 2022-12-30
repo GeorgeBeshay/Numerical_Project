@@ -1,6 +1,6 @@
 from sympy import *
 from math import *
-
+import numpy as np
 def signif(x, digits=6):
     if x == 0 or not isfinite(x):
         return x
@@ -73,14 +73,12 @@ def newton(func , xguess , EPS , maxit , precision):
 # print(ans)
 
 
-# func = "exp(-x)-x" # page 54 in part 1
-# ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 5 , precision=10)
-# print(ans)
-
-
-func = "0.5**x - x + 4" # trying an example with exponent
-ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 0 , precision=6)
+func = "exp(-x)-x" # page 54 in part 1
+ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 5 , precision=10)
 print(ans)
+# func = "0.5**x - x + 4" # trying an example with exponent
+# ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 0 , precision=6)
+# print(ans)
 
 
 # func = "x**2 - 2" # page 63 in part 1

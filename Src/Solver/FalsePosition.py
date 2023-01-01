@@ -1,23 +1,18 @@
-import math
+from math import *
 
 def roundsig(x, digits=6):
-    if x == 0 or not math.isfinite(x):
+    if x == 0 or not isfinite(x):
         return x
-    digits -= math.ceil(math.log10(abs(x)))
+    digits -= ceil(log10(abs(x)))
     return round(x, digits)
 
+def feval(function, x):
+    f = eval(function)
+    return f
 
 def false_position(function, x_lower, x_upper, tolerance, maxit = 50, sigdig = 10):
-
-    if maxit == 0:
-        maxit = 50
-    if tolerance == 0:
-        tolerance = 10 ** -5
-    if sigdig == 0:
-        sigdig = 10
-
-    fx_lower = roundsig(eval(function, {"x": x_lower}), sigdig)
-    fx_upper = roundsig(eval(function, {"x": x_upper}), sigdig)
+    fx_lower = roundsig(feval(function, x_lower), sigdig)
+    fx_upper = roundsig(feval(function, x_upper), sigdig)
     steps = f'\nf(x) = {function}\nInitial boundaries: Xl = {x_lower}, Xu = {x_upper}, f(Xl) = {fx_lower}, f(Xu) = {fx_upper}.\n'
 
     if (fx_lower*fx_upper > 0):
@@ -32,7 +27,7 @@ def false_position(function, x_lower, x_upper, tolerance, maxit = 50, sigdig = 1
     while(i<maxit):
         steps += f'\n================================ Iteration {i+1} ================================\n'
         xr = roundsig(x_upper - fx_upper*(x_upper-x_lower)/(fx_upper-fx_lower), sigdig)
-        fxr = roundsig(eval(function, {"x" : xr}), sigdig)
+        fxr = roundsig(feval(function, xr), sigdig)
         steps += f'Xl = {x_lower}\nXu = {x_upper}\nf(Xl) = {fx_lower}\nf(Xu) = {fx_upper}\n'
         steps += f'Xr = {x_upper} - ({fx_upper})*({x_upper}-({x_lower}))/({fx_upper}-({fx_lower})) = {xr}\nf(Xr) = {fxr}\n'
         
@@ -63,4 +58,4 @@ def false_position(function, x_lower, x_upper, tolerance, maxit = 50, sigdig = 1
     steps += f'Calculations lead to approximation Xr = {xr}, f(Xr) = {fxr} .'
     return steps
 
-print(false_position(function = "x**3-x-1", x_lower=1, x_upper=2, tolerance=0.0001, sigdig=5))
+print(false_position(function = "exp(-x)-x", x_lower=0.3, x_upper=0.9, tolerance=0.001, sigdig=5))

@@ -68,14 +68,14 @@ def newton(func , xguess , EPS , maxit , precision):
 
 
 # ------------------- test -------------------
-# func = "x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" # page 36 in part 1
-# ans = newton(func, 0.05 , 0 , 3 , 4)
-# print(ans)
-
-
-func = "exp(-x)-x" # page 54 in part 1
-ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 5 , precision=10)
+func = "x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" # page 36 in part 1
+ans = newton(func, 0.05 , 0 , 3 , 4)
 print(ans)
+
+
+# func = "exp(-x)-x" # page 54 in part 1
+# ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 5 , precision=10)
+# print(ans)
 # func = "0.5**x - x + 4" # trying an example with exponent
 # ans = newton(func= func , xguess= 0 , EPS= 0, maxit= 0 , precision=6)
 # print(ans)

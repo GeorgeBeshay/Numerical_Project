@@ -1,7 +1,10 @@
 # Fixed Point Iteration - Method Module
 # --------------------- Separator ---------------------
 import math
+from sympy import *
 from tabulate import tabulate
+import numpy as np
+from math import *
 # --------------------- Separator ---------------------
 
 
@@ -26,11 +29,16 @@ def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 10 ** -5, max_iter:
     Ea = 0
     startFlag = True
     iter_count = 0
+    #x = symbols("x")
+    def g_x(func,x):
+        f = eval(func)
+        return f
     # --------------------- Separator ---------------------
     while (Ea > Es or startFlag) and iter_count <= max_iter:
         startFlag = False
         xrOld = xr
-        xr = roundSig(eval(g_of_x, {'x': xrOld}), digits)
+        
+        xr = roundSig(g_x(g_of_x,xrOld), digits)
         if xr != 0:
             Ea = abs((xr - xrOld) / xr) * 100
         table.append([iter_count, xr, Ea])
@@ -40,4 +48,5 @@ def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 10 ** -5, max_iter:
 # --------------------- Separator ---------------------
 
 
-print(FPI('x**2-2*x-3', '3/(x-2)'))             # Remove this
+# print(FPI('x**2-2*x-3', '3/(x-2)'))             # Remove this
+print(FPI("exp(-x)-x","exp(-x)",0, 0.0001,20,6))

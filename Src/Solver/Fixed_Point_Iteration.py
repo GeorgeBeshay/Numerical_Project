@@ -44,9 +44,11 @@ def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 10 ** -5, max_iter:
         table.append([iter_count, xr, Ea])
         iter_count += 1
     # --------------------- Separator ---------------------
-    return "x(i+1) = g(xi)\n" + tabulate(table, headers=['It Num', 'xi', 'Ea %'])
+    return "x(i+1) = g(xi)\n" + tabulate(table, headers=['It Num', 'xi', 'Ea %']),xr
 # --------------------- Separator ---------------------
 
 
 # print(FPI('x**2-2*x-3', '3/(x-2)'))             # Remove this
-print(FPI("exp(-x)-x","exp(-x)",0, 0.0001,20,6))
+ans,x=FPI('x**2-2*x-3', '3/(x-2)',0, 0.0001,20,6)
+print(ans)
+print(x)

@@ -12,7 +12,7 @@ import Src.Solver.FalsePosition as FL
 import Src.Solver.newton_raphson as NR
 import Src.Solver.Fixed_Point_Iteration as FB
 import Src.Solver.secantMethod as SC
-
+import Src.Solver.graph as draw
 import time
 
 import tkinter as tk
@@ -118,6 +118,9 @@ def getSolution2(METHOD_NAME, parameters):
     isf, num = isFloat(parameters[3])
     if isf:
         eps = num
+
+    par=[]
+
     if METHOD_NAME == "Bisection" or METHOD_NAME == "False-Position":
         xl = 0
         isf, num = isFloat(parameters[4])
@@ -131,21 +134,29 @@ def getSolution2(METHOD_NAME, parameters):
             Ans+=BI.bisection(fun,xl,xu,iteration,eps,PRECISION)
         elif METHOD_NAME == "False-Position":
             Ans+= FL.false_position(fun,xl,xu,eps,iteration,PRECISION)
+        par.append(fun)
+        par.append(xl)
+        par.append(xu)
     elif METHOD_NAME == "Fixed point":
         x0 = 0
         isf, num = isFloat(parameters[4])
         if isf:
             x0 = num
         g = parameters[5].get()
-        Ans+=FB.FPI(fun,g,x0,eps,iteration,PRECISION)
-
+        Ans, x=FB.FPI(fun,g,x0,eps,iteration,PRECISION)
+        par.append(g)
+        par.append(x0)
+        par.append(x)
     elif METHOD_NAME == "Newton-Raphson":
         x0 = 0
         isf, num = isFloat(parameters[4])
         if isf:
             x0 = num
-        Ans+=NR.newton(fun,x0,eps,iteration,PRECISION)
-
+        Ans , x, derf=NR.newton(fun,x0,eps,iteration,PRECISION)
+        par.append(fun)
+        par.append(x0)
+        par.append(x)
+        par.append(derf)
     elif METHOD_NAME == "Secant-Method":
         x0 = 0
         isf, num = isFloat(parameters[4])
@@ -155,12 +166,16 @@ def getSolution2(METHOD_NAME, parameters):
         isf, num = isFloat(parameters[5])
         if isf:
             x1 = num
-        Ans+=SC.secant(fun,x0,x1,iteration,eps,PRECISION)
-
+        Ans,x=SC.secant(fun,x0,x1,iteration,eps,PRECISION)
+        par.append(fun)
+        par.append(x0)
+        par.append(x1)
+        par.append(x)
     endTime = time.time_ns()
     runtime = (endTime - startTime) / (10 ** 6)
     Ans += f'\nruntime = {runtime} ms'
     showAnswer(Ans, METHOD_NAME)
+    draw.showGrpah(METHOD_NAME, par)
 
 def showAnswer(Ans, METHOD_NAME):
     # ------------------------- Separator -------------------------

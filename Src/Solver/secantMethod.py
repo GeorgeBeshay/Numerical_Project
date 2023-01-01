@@ -44,9 +44,11 @@ def secant(f, x0, x1, iterations, tol, precision):
         x0 = x1
         x1 = x2
     steps += f"The root is: {x2}\n\n"
-    return steps
+    return steps,x2
 
 # (f, x0, x1, iterations, tol, precision):
-# f = "x**3-x**2-10*x+7"
-f= "exp(-x)-x"
-print(secant(f, 0, 1, 20, 10**-4, 6))
+f = "x**3-x**2-10*x+7"
+# f= "exp(-x)-x"
+a,q=secant(f, 0, 1, 20, 10**-4, 6)
+print(a)
+print(q)

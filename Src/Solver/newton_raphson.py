@@ -64,13 +64,15 @@ def newton(func , xguess , EPS , maxit , precision):
             newtonSteps += "f(xnew) is not near to zero\nx is not a root\n"
     except TypeError : # UnboundLocalError
         newtonSteps += ""
-    return newtonSteps
+    return newtonSteps,xnew,str(derfunc)
 
 
 # ------------------- test -------------------
 func = "x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" # page 36 in part 1
-ans = newton(func, 0.05 , 0 , 3 , 4)
+ans,xx,derf = newton(func, 0.05 , 0 , 3 , 4)
 print(ans)
+print(xx)
+print(derf)
 
 
 # func = "exp(-x)-x" # page 54 in part 1

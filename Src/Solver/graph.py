@@ -87,17 +87,15 @@ def showGrpah(methodName, params):
                 plt.ylabel("f(x)")
                 plt.show()
 
-showGrpah("Bisection", ["x**2-4*x+3",0.1,2.6])
+# showGrpah("Bisection", ["x**2-4*x+3",0.1,2.6])
 # showGrpah("False-Position", ["x**3-x-1",1,2])
 # showGrpah("Fixed point", ['3/(x-2)',0,-1])
 # showGrpah("Newton-Raphson", ["x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" , 0.05 ,  0.06238, "3*x**2 - 0.33*x"])
 # showGrpah("Newton-Raphson", ["np.exp(-x)-x" , 0 , 0.567143165, "-1 - np.exp(-x)"])
 
-<<<<<<< Updated upstream
 # showGrpah("Fixed point", ['np.exp(-x)',0,0.567147])
-=======
 #showGrpah("Fixed point", ['np.exp(-x)',0,0.567147])
->>>>>>> Stashed changes
+
 # showGrpah("Secant-Method", ["x**3-x**2-10*x+7" , 3, 4,3.35746])
 # showGrpah("Secant-Method", ["np.exp(-x)-x" , 0, 1,0.567143])
 # showGrpah("False-Position", ["x**4+3*x-4",0,3])

@@ -65,7 +65,7 @@ def bisection(f,xl,xu,N,EPS,percision):
 
 
 
-# f="x**4+3*x-4"
-#
-# a=bisection(f,0,3,0,0,6)
-# print(a)
+f="x**4+3*x-4"
+
+a=bisection(f,0,3,0,0,6)
+print(a)

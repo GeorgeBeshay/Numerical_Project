@@ -1,7 +1,7 @@
 # Fixed Point Iteration - Method Module
 # --------------------- Separator ---------------------
 import math
-from sympy import *
+# from sympy import *
 from tabulate import tabulate
 import numpy as np
 from math import *
@@ -49,6 +49,15 @@ def FPI(f_of_x: str, g_of_x: str, x0: float = 0, Es: float = 10 ** -5, max_iter:
 
 
 # print(FPI('x**2-2*x-3', '3/(x-2)'))             # Remove this
-ans,x=FPI('x**2-2*x-3', '3/(x-2)',0, 0.0001,20,6)
-print(ans)
-print(x)
+# ans,x=FPI('x**2-2*x-3', '3/(x-2)', 0, 0.0001,20,6)
+# print(ans)
+# print(x)
+# ---------------------
+# ans, x = FPI('(e**-x)-x', '(e**-x)', 0, 0.0001, 20, 6)
+# print(ans)
+# print(x)
+# ---------------------
+# ans, x = FPI('1+.5*sin(x)', '1+.5*sin(x)', 0, 0.0001, 20, 6)
+# print(ans)
+# print(x)
+# ---------------------

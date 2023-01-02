@@ -47,8 +47,8 @@ def secant(f, x0, x1, iterations, tol, precision):
     return steps,x2
 
 # (f, x0, x1, iterations, tol, precision):
-f = "x**3-x**2-10*x+7"
-# f= "exp(-x)-x"
-a,q=secant(f, 0, 1, 20, 10**-4, 6)
-print(a)
-print(q)
+# f = "x**3-x**2-10*x+7"
+# # f= "exp(-x)-x"
+# a,q=secant(f, 0, 1, 20, 10**-4, 6)
+# print(a)
+# print(q)

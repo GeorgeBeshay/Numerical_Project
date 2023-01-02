@@ -58,4 +58,4 @@ def false_position(function, x_lower, x_upper, tolerance, maxit = 50, sigdig = 1
     steps += f'Calculations lead to approximation Xr = {xr}, f(Xr) = {fxr} .'
     return steps
 
-print(false_position(function = "exp(-x)-x", x_lower=0.3, x_upper=0.9, tolerance=0.001, sigdig=5))
+# print(false_position(function = "exp(-x)-x", x_lower=0.3, x_upper=0.9, tolerance=0.001, sigdig=5))

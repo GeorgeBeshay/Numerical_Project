@@ -68,11 +68,11 @@ def newton(func , xguess , EPS , maxit , precision):
 
 
 # ------------------- test -------------------
-func = "x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" # page 36 in part 1
-ans,xx,derf = newton(func, 0.05 , 0 , 3 , 4)
-print(ans)
-print(xx)
-print(derf)
+# func = "x**3 - 0.165 * x**2 + 3.993 * 10**(-4)" # page 36 in part 1
+# ans,xx,derf = newton(func, 0.05 , 0 , 3 , 4)
+# print(ans)
+# print(xx)
+# print(derf)
 
 
 # func = "exp(-x)-x" # page 54 in part 1

@@ -24,7 +24,7 @@ def bisection(f,xl,xu,N,EPS,percision):
 
     if function(f,xl)==0:
         return str(xl)
-    else:
+    elif function(f,xu)==0:
         return str(xu)
 
     n=0
@@ -63,8 +63,8 @@ def bisection(f,xl,xu,N,EPS,percision):
 
 
 
-
-f="x**4+3*x-4"
-
-a=bisection(f,0,1,0,0,6)
-print(a)
+#
+# f="x**4+3*x-4"
+#
+# a=bisection(f,0,1,0,0,6)
+# print(a)

@@ -22,12 +22,11 @@ def bisection(f,xl,xu,N,EPS,percision):
         ans="No bracket"
         return ans
 
-    if (function(f,xl) * function(f,xu)) == 0:
-        if function(f,xl)==0:
-            ans = str(xl)
-        else:
-            ans = str(xu)
-        return ans
+    if function(f,xl)==0:
+        return str(xl)
+    else:
+        return str(xu)
+
     n=0
     relative_error=100
     xrold=0
@@ -67,5 +66,5 @@ def bisection(f,xl,xu,N,EPS,percision):
 
 f="x**4+3*x-4"
 
-a=bisection(f,0,3,0,0,6)
+a=bisection(f,0,1,0,0,6)
 print(a)

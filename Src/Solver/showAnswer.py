@@ -13,6 +13,7 @@ import Src.Solver.newton_raphson as NR
 import Src.Solver.Fixed_Point_Iteration as FB
 import Src.Solver.secantMethod as SC
 import Src.Solver.graph as draw
+
 import time
 
 import tkinter as tk
@@ -135,6 +136,9 @@ def getSolution2(METHOD_NAME, parameters):
         elif METHOD_NAME == "False-Position":
             Ans+= FL.false_position(fun,xl,xu,eps,iteration,PRECISION)
         f = fun.replace("exp", "np.exp")
+        f = f.replace("sin", "np.sin")
+        f = f.replace("cos", "np.cos")
+        f = f.replace("tan", "np.tan")
         par.append(f)
         par.append(xl)
         par.append(xu)
@@ -146,6 +150,9 @@ def getSolution2(METHOD_NAME, parameters):
         g = parameters[5].get()
         Ans, x=FB.FPI(fun,g,x0,eps,iteration,PRECISION)
         f = g.replace("exp", "np.exp")
+        f = f.replace("sin", "np.sin")
+        f = f.replace("cos", "np.cos")
+        f = f.replace("tan", "np.tan")
         par.append(f)
         par.append(x0)
         par.append(x)
@@ -156,10 +163,16 @@ def getSolution2(METHOD_NAME, parameters):
             x0 = num
         Ans , x, derf=NR.newton(fun,x0,eps,iteration,PRECISION)
         f = fun.replace("exp", "np.exp")
+        f = f.replace("sin", "np.sin")
+        f = f.replace("cos", "np.cos")
+        f = f.replace("tan", "np.tan")
         par.append(f)
         par.append(x0)
         par.append(x)
         dr = derf.replace("exp", "np.exp")
+        dr = dr.replace("sin", "np.sin")
+        dr = dr.replace("cos", "np.cos")
+        dr = dr.replace("tan", "np.tan")
         par.append(dr)
     elif METHOD_NAME == "Secant-Method":
         x0 = 0
@@ -172,6 +185,9 @@ def getSolution2(METHOD_NAME, parameters):
             x1 = num
         Ans,x=SC.secant(fun,x0,x1,iteration,eps,PRECISION)
         f=fun.replace("exp","np.exp")
+        f = f.replace("sin", "np.sin")
+        f = f.replace("cos", "np.cos")
+        f = f.replace("tan", "np.tan")
         par.append(f)
         par.append(x0)
         par.append(x1)

@@ -94,7 +94,8 @@ def showGrpah(methodName, params):
 # showGrpah("Newton-Raphson", ["np.exp(-x)-x" , 0 , 0.567143165, "-1 - np.exp(-x)"])
 
 # showGrpah("Fixed point", ['np.exp(-x)',0,0.567147])
-#showGrpah("Fixed point", ['np.exp(-x)',0,0.567147])
+# showGrpah("Fixed point", ['1+0.5*sin(x)',0,1.4987])
+
 
 # showGrpah("Secant-Method", ["x**3-x**2-10*x+7" , 3, 4,3.35746])
 # showGrpah("Secant-Method", ["np.exp(-x)-x" , 0, 1,0.567143])
